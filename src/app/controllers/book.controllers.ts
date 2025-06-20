@@ -8,7 +8,7 @@ bookRoutes.get('/books', async (req: Request, res: Response) => {
         const filter = req.query.filter as string | undefined;
         const sortBy = req.query.sortBy as string | undefined;
         const sortOrderStr = req.query.sort as string | undefined;
-        const limitStr = req.query.limit as string | undefined;
+        const limitStr = req.query.limit as string ;
 
         const query: any = {};
 
@@ -26,7 +26,7 @@ bookRoutes.get('/books', async (req: Request, res: Response) => {
 
       
         if (limitStr) {
-            const limit = parseInt(limitStr);
+            const limit = parseInt(limitStr) || 10;
             if (!isNaN(limit)) {
                 bookQuery = bookQuery.limit(limit);
             }
