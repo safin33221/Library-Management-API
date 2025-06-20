@@ -1,12 +1,13 @@
-import express, { Request, Response } from 'express'
-import { Application } from "express";
-import cors from 'cors';
+import express, { Request, Response,Application } from 'express'
 
 
+import { bookRoutes } from './app/controllers/book.controllers';
 const app: Application = express()
-app.use(cors());
-
 app.use(express.json())
+
+
+
+app.use('/api',bookRoutes)
 
 app.get('/', (req: Request, res: Response) => {
     res.send(`Library management server is running`)
