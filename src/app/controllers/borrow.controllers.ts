@@ -11,7 +11,7 @@ borrowRoutes.post('/borrow', async (req: Request, res: Response) => {
             success: true,
             message: 'Book borrowed successfully',
             data: borrow
-        }); 
+        });
 
     } catch (error: any) {
         res.status(400).send({
@@ -22,5 +22,55 @@ borrowRoutes.post('/borrow', async (req: Request, res: Response) => {
                 message: error.message,
             }
         });
+    }
+})
+
+borrowRoutes.get('/borrow', async (req: Request, res: Response) => {
+    try {
+        const borrows = await Borrow.aggregate([
+
+            {
+                $lookup: {
+                    from: 'books',
+                    localField: 'book',
+                    foreignField: '_id',
+                    as: 'bookData'
+                }
+            },
+            {
+                $unwind: '$bookData'
+            },
+            {
+                $group: {
+                    _id: '$bookData._id',
+                    book: {
+                        $first: {
+                            title: '$bookData.title',
+                            isbn: '$bookData.isbn'
+
+                        }
+                    },
+
+                    totalQuantity: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    book: 1,
+                    totalQuantity: 1
+                }
+            }
+
+        ])
+        console.log(borrows);
+
+        res.status(201).send({
+            success: true,
+            message: 'Borrowed books summary retrieved successfully',
+            data: borrows
+        });
+    } catch (error) {
+
     }
 })
