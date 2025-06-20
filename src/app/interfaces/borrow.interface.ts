@@ -4,5 +4,7 @@ export interface IBorrow {
     book: Schema.Types.ObjectId;
     quantity: Number;
     dueDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
 
 }

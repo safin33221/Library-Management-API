@@ -11,12 +11,16 @@ bookRoutes.get('/books', async (req: Request, res: Response) => {
             message: "Books retrieved successfully",
             data: books
         })
-    } catch (error) {
-        res.status(400).send({
-            message: 'book not create',
+    } catch (error: any) {
+        res.status(500).send({
             success: false,
-            error: error
+            message: 'Failed to retrieve books',
+            error: {
+                name: error.name,
+                message: error.message,
+            }
         })
+
     }
 })
 
@@ -31,12 +35,17 @@ bookRoutes.get('/books/:bookId', async (req: Request, res: Response) => {
             data: book
         })
 
-    } catch (error) {
-        res.status(400).send({
-            message: 'sever error',
+    } catch (error: any) {
+        res.status(500).send({
             success: false,
-            error: error
+            message: 'Failed to retrieve the book',
+            error: {
+                name: error.name,
+                message: error.message,
+            }
         })
+
+
     }
 })
 
@@ -52,12 +61,16 @@ bookRoutes.post('/books', async (req: Request, res: Response) => {
             data: book
         })
 
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).send({
-            message: 'book not create',
             success: false,
-            error: error
+            message: 'Book creation failed',
+            error: {
+                name: error.name,
+                message: error.message,
+            }
         })
+
     }
 })
 
@@ -83,12 +96,16 @@ bookRoutes.put('/books/:bookId', async (req: Request, res: Response) => {
             message: "Book updated successfully",
             data: book
         })
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
-            message: 'server error',
             success: false,
-            error: error
+            message: 'Failed to update book',
+            error: {
+                name: error.name,
+                message: error.message,
+            }
         })
+
     }
 })
 
@@ -103,11 +120,15 @@ bookRoutes.delete('/books/:bookId', async (req: Request, res: Response) => {
             data: null
         })
 
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).send({
-            message: 'server error',
             success: false,
-            error: error
+            message: 'Failed to delete book',
+            error: {
+                name: error.name,
+                message: error.message,
+            }
         })
+
     }
 })

@@ -14,7 +14,15 @@ const borrowSchema = new Schema<IBorrow>({
     dueDate: {
         type: Date,
         default: new Date
-    }
+    },
+    createdAt:{
+        type:Date,
+        default: new Date
+    },
+    updatedAt:{
+        type:Date,
+        default: new Date
+    },
 })
 
-const Borrow = model('Borrow', borrowSchema)
+export const Borrow = model('Borrow', borrowSchema)
