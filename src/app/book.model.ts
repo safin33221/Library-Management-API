@@ -23,6 +23,18 @@ const bookSchema = new Schema<IBook>({
     available: {
         type: Boolean,
         default: true
+    },
+    copies: {
+        type: Number,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: new Date()
+    },
+    updatedAt: {
+        type: Date,
+        default: new Date()
     }
 
 })

@@ -5,4 +5,7 @@ export interface IBook {
     publishedYear?: number;
     genre?: string[];
     available: boolean;
+    copies:Number;
+    createdAt:Date;
+    updatedAt:Date;
 }
