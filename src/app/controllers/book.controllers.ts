@@ -21,6 +21,26 @@ bookRoutes.get('/books', async (req: Request, res: Response) => {
 })
 
 
+bookRoutes.get('/books/:bookId', async (req: Request, res: Response) => {
+    try {
+        const bookId = req.params.bookId;
+        const book = await Book.findById(bookId)
+        res.status(200).send({
+            success: true,
+            message: "Books retrieved successfully",
+            data: book
+        })
+
+    } catch (error) {
+        res.status(400).send({
+            message: 'sever error',
+            success: false,
+            error: error
+        })
+    }
+})
+
+
 bookRoutes.post('/books', async (req: Request, res: Response) => {
     try {
         const bookData = req.body;
