@@ -5,23 +5,48 @@ export const bookRoutes = express.Router()
 
 bookRoutes.get('/books', async (req: Request, res: Response) => {
     try {
-        const books = await Book.find()
-        res.status(200).send({
+        const filter = req.query.filter as string | undefined;
+        const sortBy = req.query.sortBy as string | undefined;
+        const sortOrderStr = req.query.sort as string | undefined;
+        const limitStr = req.query.limit as string | undefined;
+
+        const query: any = {};
+
+
+        if (filter) {
+            query.genre = filter;
+        }
+
+        let bookQuery = Book.find(query);
+
+        if (sortBy && sortOrderStr) {
+            const sortOrder = sortOrderStr === 'asc' ? 1 : -1;
+            bookQuery = bookQuery.sort({ [sortBy]: sortOrder });
+        }
+
+      
+        if (limitStr) {
+            const limit = parseInt(limitStr);
+            if (!isNaN(limit)) {
+                bookQuery = bookQuery.limit(limit);
+            }
+        }
+
+        const books = await bookQuery;
+
+        res.status(200).json({
             success: true,
             message: "Books retrieved successfully",
-            data: books
-        })
-    } catch (error: any) {
-        res.status(500).send({
+            data: books,
+        });
+    } catch (error) {
+        res.status(400).json({
             success: false,
-            message: 'Failed to retrieve books',
-            error: {
-                name: error.name,
-                message: error.message,
-            }
-        })
-
+            message: "Failed to retrieve books",
+            error,
+        });
     }
+
 })
 
 
