@@ -91,3 +91,23 @@ bookRoutes.put('/books/:bookId', async (req: Request, res: Response) => {
         })
     }
 })
+
+
+bookRoutes.delete('/books/:bookId', async (req: Request, res: Response) => {
+    try {
+        const bookId = req.params.bookId
+        const book = await Book.findByIdAndDelete(bookId)
+        res.status(200).send({
+            success: true,
+            message: "Book deleted successfully ",
+            data: null
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            message: 'server error',
+            success: false,
+            error: error
+        })
+    }
+})
