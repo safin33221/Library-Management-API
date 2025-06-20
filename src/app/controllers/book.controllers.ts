@@ -60,3 +60,34 @@ bookRoutes.post('/books', async (req: Request, res: Response) => {
         })
     }
 })
+
+
+
+
+
+bookRoutes.put('/books/:bookId', async (req: Request, res: Response) => {
+    try {
+        const bookId = req.params.bookId
+        const updateBook = req.body
+        const book = await Book.findByIdAndUpdate(bookId, updateBook, { new: true })
+        if (!book) {
+            res.status(404).send({
+                success: false,
+                message: 'book not found',
+                data: null
+
+            })
+        }
+        res.status(200).send({
+            success: true,
+            message: "Book updated successfully",
+            data: book
+        })
+    } catch (error) {
+        res.status(500).send({
+            message: 'server error',
+            success: false,
+            error: error
+        })
+    }
+})
