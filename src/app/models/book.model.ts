@@ -6,6 +6,10 @@ const bookSchema = new Schema<IBook>({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     author: {
         type: String,
         required: true
@@ -13,7 +17,7 @@ const bookSchema = new Schema<IBook>({
     isbn: {
         type: String,
         required: true,
-        unique: true
+        unique: [true,"Isbn already exist"]
     },
     publishedYear: {
         type: Number,
@@ -23,7 +27,7 @@ const bookSchema = new Schema<IBook>({
 
         {
             type: String,
-            enum: ['FICTION', 'NON_FICTION', 'SCIENCE', 'HISTORY', 'BIOGRAPHY', 'FANTASY'], 
+            enum: ['FICTION', 'NON_FICTION', 'SCIENCE', 'HISTORY', 'BIOGRAPHY', 'FANTASY'],
         }
     ],
     available: {
@@ -41,8 +45,9 @@ const bookSchema = new Schema<IBook>({
     updatedAt: {
         type: Date,
         default: new Date()
-    }
-
-})
+    }},
+    {
+        versionKey: false
+    })
 
 export const Book = model<IBook>('Book', bookSchema);
