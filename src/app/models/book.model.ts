@@ -8,7 +8,6 @@ const bookSchema = new Schema<IBook>({
     },
     description: {
         type: String,
-        required: true
     },
     author: {
         type: String,
@@ -16,27 +15,30 @@ const bookSchema = new Schema<IBook>({
     },
     isbn: {
         type: String,
-        required: true,
-        unique: [true,"Isbn already exist"]
-    },
+        required: [true, 'ISBN is required'],
+        unique: [true, "ISBN is not correct"],
+    }
+    ,
     publishedYear: {
         type: Number,
         min: [0, 'Year cannot be negative']
     },
-    genre: [
-
-        {
-            type: String,
-            enum: ['FICTION', 'NON_FICTION', 'SCIENCE', 'HISTORY', 'BIOGRAPHY', 'FANTASY'],
-        }
-    ],
+    genre: {
+        type: String,
+        required: [true, 'Genre is required'],
+        enum: {
+            values: ['FICTION', 'NON_FICTION', 'SCIENCE', 'HISTORY', 'BIOGRAPHY', 'FANTASY'],
+            message: 'Genre must be one of: FICTION, NON_FICTION, SCIENCE, HISTORY, BIOGRAPHY, FANTASY',
+        },
+    },
     available: {
         type: Boolean,
         default: true
     },
     copies: {
         type: Number,
-        required: true
+        required: true,
+        min: [0, "Copies cannot be negative"]
     },
     createdAt: {
         type: Date,
@@ -45,7 +47,8 @@ const bookSchema = new Schema<IBook>({
     updatedAt: {
         type: Date,
         default: new Date()
-    }},
+    }
+},
     {
         versionKey: false
     })
