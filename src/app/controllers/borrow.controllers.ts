@@ -13,13 +13,19 @@ borrowRoutes.post('/borrow', async (req: Request, res: Response) => {
             data: borrow
         });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        let errorName = 'Error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+            errorName = error.name;
+        }
         res.status(400).send({
             success: false,
             message: 'Failed to create borrow record',
             error: {
-                name: error.name,
-                message: error.message,
+                name: errorName,
+                message: errorMessage,
             }
         });
     }
@@ -70,7 +76,21 @@ borrowRoutes.get('/borrow', async (req: Request, res: Response) => {
             message: 'Borrowed books summary retrieved successfully',
             data: borrows
         });
-    } catch (error) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        let errorName = 'Error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+            errorName = error.name;
+        }
+        res.status(400).send({
+            success: false,
+            message: 'Borrowed books summary retrieved failed',
+            error: {
+                name: errorName,
+                message: errorMessage,
+            }
+        });
 
     }
 })

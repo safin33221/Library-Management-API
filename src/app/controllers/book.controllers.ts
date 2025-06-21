@@ -8,9 +8,9 @@ bookRoutes.get('/books', async (req: Request, res: Response) => {
         const filter = req.query.filter as string | undefined;
         const sortBy = req.query.sortBy as string | undefined;
         const sortOrderStr = req.query.sort as string | undefined;
-        const limitStr = req.query.limit as string ;
+        const limitStr = req.query.limit as string;
 
-        const query: any = {};
+        const query: Record<string, unknown> = {};
 
 
         if (filter) {
@@ -24,7 +24,7 @@ bookRoutes.get('/books', async (req: Request, res: Response) => {
             bookQuery = bookQuery.sort({ [sortBy]: sortOrder });
         }
 
-      
+
         if (limitStr) {
             const limit = parseInt(limitStr) || 10;
             if (!isNaN(limit)) {
@@ -60,15 +60,21 @@ bookRoutes.get('/books/:bookId', async (req: Request, res: Response) => {
             data: book
         })
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        let errorName = 'Error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+            errorName = error.name;
+        }
         res.status(500).send({
             success: false,
             message: 'Failed to retrieve the book',
             error: {
-                name: error.name,
-                message: error.message,
+                name: errorName,
+                message: errorMessage,
             }
-        })
+        });
 
 
     }
@@ -86,13 +92,19 @@ bookRoutes.post('/books', async (req: Request, res: Response) => {
             data: book
         })
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        let errorName = 'Error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+            errorName = error.name;
+        }
         res.status(400).send({
             success: false,
             message: 'Book creation failed',
             error: {
-                name: error.name,
-                message: error.message,
+                name: errorName,
+                message: errorMessage,
             }
         })
 
@@ -121,13 +133,19 @@ bookRoutes.put('/books/:bookId', async (req: Request, res: Response) => {
             message: "Book updated successfully",
             data: book
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        let errorName = 'Error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+            errorName = error.name;
+        }
         res.status(500).send({
             success: false,
             message: 'Failed to update book',
             error: {
-                name: error.name,
-                message: error.message,
+                name: errorName,
+                message: errorMessage,
             }
         })
 
@@ -138,20 +156,26 @@ bookRoutes.put('/books/:bookId', async (req: Request, res: Response) => {
 bookRoutes.delete('/books/:bookId', async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId
-        const book = await Book.findByIdAndDelete(bookId)
+        await Book.findByIdAndDelete(bookId)
         res.status(200).send({
             success: true,
             message: "Book deleted successfully ",
             data: null
         })
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        let errorName = 'Error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+            errorName = error.name;
+        }
         res.status(500).send({
             success: false,
             message: 'Failed to delete book',
             error: {
-                name: error.name,
-                message: error.message,
+                name: errorName,
+                message: errorMessage,
             }
         })
 

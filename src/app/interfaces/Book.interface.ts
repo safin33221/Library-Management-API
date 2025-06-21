@@ -5,7 +5,7 @@ export interface IBook {
     publishedYear?: number;
     genre?: string[];
     available: boolean;
-    copies:Number;
+    copies:number;
     createdAt:Date;
     updatedAt:Date;
 }

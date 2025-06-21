@@ -1,9 +1,11 @@
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
+import dotenv from 'dotenv';
+dotenv.config();
 
-require('dotenv').config()
 const PORT = 8000;
+
 let server: Server;
 const uri = process.env.MONGODB_URI
 async function main() {
