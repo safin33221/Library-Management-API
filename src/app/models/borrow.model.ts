@@ -43,6 +43,7 @@ borrowSchema.pre("save", async function (next) {
         }
 
         if (!book.available) {
+            book.copies = 0
             return next(new Error('Book is currently not available'));
         }
 
