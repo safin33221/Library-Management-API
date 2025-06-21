@@ -57,7 +57,7 @@ borrowRoutes.get('/borrow', async (req: Request, res: Response) => {
                         }
                     },
 
-                    totalQuantity: { $sum: 1 }
+                    totalQuantity: { $sum: "$quantity" }
                 }
             },
             {

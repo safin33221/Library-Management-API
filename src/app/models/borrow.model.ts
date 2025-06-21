@@ -24,7 +24,11 @@ const borrowSchema = new Schema<IBorrow>({
         type: Date,
         default: new Date
     },
-})
+}, {
+    versionKey: false
+}
+
+)
 
 
 
