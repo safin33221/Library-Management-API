@@ -54,6 +54,13 @@ bookRoutes.get('/books/:bookId', async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId;
         const book = await Book.findById(bookId)
+        if (!book) {
+            res.status(404).send({
+                success: true,
+                message: "Books not found",
+                data: null
+            })
+        }
         res.status(200).send({
             success: true,
             message: "Books retrieved successfully",
