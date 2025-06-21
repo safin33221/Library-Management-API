@@ -19,7 +19,13 @@ const bookSchema = new Schema<IBook>({
         type: Number,
         min: [0, 'Year cannot be negative']
     },
-    genre: [{ type: String }],
+    genre: [
+
+        {
+            type: String,
+            enum: ['FICTION', 'NON_FICTION', 'SCIENCE', 'HISTORY', 'BIOGRAPHY', 'FANTASY'], 
+        }
+    ],
     available: {
         type: Boolean,
         default: true
