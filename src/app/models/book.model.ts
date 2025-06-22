@@ -1,5 +1,6 @@
 import mongoose, { model, Schema } from "mongoose";
 import { IBook, IBookModel } from "../interfaces/Book.interface";
+import { IBorrow } from "../interfaces/borrow.interface";
 
 const bookSchema = new Schema<IBook, IBookModel>({
     title: {
@@ -38,7 +39,7 @@ const bookSchema = new Schema<IBook, IBookModel>({
     copies: {
         type: Number,
         required: true,
-        min: [0, "Copies cannot be negative"]
+        min: [0, "Copies cannot be negative or zero"]
     },
     createdAt: {
         type: Date,
@@ -61,15 +62,22 @@ bookSchema.statics.borrowBook = async function (bookId: string, quantity: number
     if (!book.available) {
         throw new Error('Book is currently not available');
     }
-    if (book.copies < quantity) throw new Error(`Only ${book.copies} copies available, but ${quantity} requested`);
+    // if (book.copies < quantity) throw new Error(`Only ${book.copies} copies available, but ${quantity} requested`);
 
-    book.copies -= quantity;
-    if (book.copies === 0) {
-        book.available = false;
-    }
+    // book.copies -= quantity;
+    // if (book.copies === 0) {
+    //     book.available = false;
+    // }
     await book.save();
     return book;
 };
+
+
+
+//pre save book: ensure book is available before recording borrow
+
+
+
 
 
 export const Book = mongoose.model<IBook, IBookModel>('Book', bookSchema);
