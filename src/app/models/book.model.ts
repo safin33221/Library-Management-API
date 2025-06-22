@@ -62,19 +62,11 @@ bookSchema.statics.borrowBook = async function (bookId: string, quantity: number
     if (!book.available) {
         throw new Error('Book is currently not available');
     }
-    // if (book.copies < quantity) throw new Error(`Only ${book.copies} copies available, but ${quantity} requested`);
-
-    // book.copies -= quantity;
-    // if (book.copies === 0) {
-    //     book.available = false;
-    // }
+  
     await book.save();
     return book;
 };
 
-
-
-//pre save book: ensure book is available before recording borrow
 
 
 

@@ -87,8 +87,8 @@ A RESTful API for managing books and borrow operations, built using **Express**,
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/library-management-api.git
-cd library-management-api
+git clone https://github.com/safin33221/Library-Management-API.git
+cd Library-Management-API
 
 ### 1️⃣ Install dependencies
 pnpm install
@@ -96,7 +96,7 @@ pnpm install
 ### 3️⃣ Setup Environment Variables
 
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/library-management
+MONGO_URI=mongodb://localhost:27017/library-management -> Replace yourDB Url
 
 
 ### 4️⃣ Run the Development Server
