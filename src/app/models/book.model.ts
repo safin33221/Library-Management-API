@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
-import { IBook } from "../interfaces/Book.interface";
+import mongoose, { model, Schema } from "mongoose";
+import { IBook, IBookModel } from "../interfaces/Book.interface";
 
-const bookSchema = new Schema<IBook>({
+const bookSchema = new Schema<IBook, IBookModel>({
     title: {
         type: String,
         required: true
@@ -53,4 +53,23 @@ const bookSchema = new Schema<IBook>({
         versionKey: false
     })
 
-export const Book = model<IBook>('Book', bookSchema);
+
+// Static method to handle update on borrow
+bookSchema.statics.borrowBook = async function (bookId: string, quantity: number) {
+    const book = await this.findById(bookId);
+    if (!book) throw new Error('Book not found');
+    if (!book.available) {
+        throw new Error('Book is currently not available');
+    }
+    if (book.copies < quantity) throw new Error(`Only ${book.copies} copies available, but ${quantity} requested`);
+
+    book.copies -= quantity;
+    if (book.copies === 0) {
+        book.available = false;
+    }
+    await book.save();
+    return book;
+};
+
+
+export const Book = mongoose.model<IBook, IBookModel>('Book', bookSchema);

@@ -1,16 +1,30 @@
 import express, { Request, Response } from 'express'
 import { Borrow } from '../models/borrow.model'
+import { Book } from '../models/book.model';
 export const borrowRoutes = express.Router()
 
 
 borrowRoutes.post('/borrow', async (req: Request, res: Response) => {
     try {
-        const borrowData = req.body
-        const borrow = await Borrow.create(borrowData)
+        const { book, quantity, dueDate } = req.body;
+
+        // Validate
+        if (!book || !quantity || !dueDate) {
+            res.status(400).json({
+                success: false,
+                message: 'Missing required fields',
+            });
+        }
+        // Check and update book inventory
+        await Book.borrowBook(book, quantity);
+
+        // Create borrow record
+        const borrowRecord = await Borrow.create({ book, quantity, dueDate });
+
         res.status(201).send({
             success: true,
             message: 'Book borrowed successfully',
-            data: borrow
+            data: borrowRecord
         });
 
     } catch (error: unknown) {
