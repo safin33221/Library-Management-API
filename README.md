@@ -60,6 +60,7 @@ A RESTful API for managing books and borrow operations, built using **Express**,
 | `sort`     | string | Sort order: `asc` or `desc`               |
 | `limit`    | number | Limit the number of results (default: 10)|
 
+ # ** [Video Explanation](https://drive.google.com/file/d/1QxiuetrulXD9GlFoSIJjCTJS8FD6FfXf/view?usp=drive_link) **
 
 
 ## 📁 Folder Structure
