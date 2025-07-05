@@ -28,15 +28,16 @@ borrowRoutes.post('/borrow', async (req: Request, res: Response) => {
         });
 
     } catch (error: unknown) {
+        console.log(error);
         let errorMessage = 'Unknown error';
         let errorName = 'Error';
         if (error instanceof Error) {
-            errorMessage = error.message;
+            errorMessage = error.message; // This will capture your custom error message
             errorName = error.name;
         }
         res.status(400).send({
             success: false,
-            message: 'Failed to create borrow record',
+            message: errorMessage, // Send the error message directly here
             error: {
                 name: errorName,
                 message: errorMessage,
